@@ -3,21 +3,31 @@ import numpy as np
 from PIL import *
 import time
 
-cap = cv2.VideoCapture(0)
-result, image = cap.read()
+#take the picture
+class Image:
+    def __init__(self):
+        self.cap = cv2.VideoCapture(0)
+        self.result, self.image = self.cap.read()
 
-if result:
-    cv2.imshow("Yuh", image)
+    def Display(self):
+        if self.result:
+            #show the image
+            cv2.imshow("Yuh", self.image)
 
-    cv2.imwrite("Camera_test/Yuh.png", image)
+            #save the image
+            cv2.imwrite(r"C:\Users\hambu\OneDrive\Desktop\Final_pi_project\Camera_test\Yuh.png", self.image)
+            #raise Exception("Image could not be saved!")
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
 
-    cv2.waitKey(0)
-    cv2.destroyWindow("Yuh")
+#get image dimensions
+E = Image()
+E.Display()
 
-h, w, _ = image.shape
+h, w, _ = E.image.shape
 print('width: ', w)
 print('height:', h)
-
+print(E.result)
 
 
 
