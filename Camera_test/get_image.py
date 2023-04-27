@@ -21,13 +21,13 @@ class Image:
             cv2.destroyAllWindows()
 
 #get image dimensions
-E = Image()
-E.Display()
+#E = Image()
+#E.Display()
 
-h, w, _ = E.image.shape
-print('width: ', w)
-print('height:', h)
-print(E.result)
+#h, w, _ = E.image.shape
+#print('width: ', w)
+#print('height:', h)
+#print(E.result)
 
 
 
