@@ -10,7 +10,7 @@ class Measurables:
 
     #str method
     def __str__(self):
-        print(f"Point 1: ({self.x1},{self.y1})\nPoint 2: ({self.x2},{self.y2})\nDistance between points: {self.distance(self.x1,self.y1,self.x2,self.y2,'A')}")
+        print(f"Point 1: ({self.x1},{self.y1})\nPoint 2: ({self.x2},{self.y2})\nDistance between points: {self.distance(self.x1,self.y1,self.x2,self.y2,'C')}")
 
 
 
@@ -26,7 +26,7 @@ class Measurables:
 
                 # put coordinates as text on the image
                 cv2.putText(self.image, f'({x},{y})',(x,y),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                cv2.FONT_HERSHEY_SIMPLEX, 1/2, (0, 0, 255), 1)
 
                 # draw point on the image
                 cv2.circle(self.image, (x,y), 3, (0,255,255), -1)
@@ -39,7 +39,7 @@ class Measurables:
                 self.__str__()
                 # put coordinates as text on the image
                 cv2.putText(self.image, f'({x},{y})',(x,y),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                cv2.FONT_HERSHEY_SIMPLEX, 1/2, (0, 0, 255), 1)
                 # draw point on the image
                 cv2.circle(self.image, (x,y), 3, (0,255,255), -1)
                 #print info about points
@@ -53,11 +53,13 @@ class Measurables:
         y_diff = y2-y1
         print(x_diff)
         pixel_distance = sqrt(x_diff**2+y_diff**2)
-        if block == "A":
+        if block == "A" or block == "B":
             conversion_rate = (35.62)
-            real_distance = (pixel_distance/conversion_rate)
-            realunit = "inches"
-            print(pixel_distance)
+            realunit = "in"
+        elif block == "C":
+            conversion_rate = (1.52147)
+            realunit = "mm"
+        real_distance = (pixel_distance/conversion_rate)
         return (str(real_distance) + " " + realunit)
 
 
@@ -80,4 +82,4 @@ while True:
         break
 print(M.distance(1,0,5,0,'A'))
 # close the window
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()
