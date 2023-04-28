@@ -49,12 +49,17 @@ class Measurables:
 
 #find distance between two points
     def distance(self,x1,y1,x2,y2,block):
-        pixel_distance = sqrt(abs((x2-x1))^2+abs((y2-y1))^2)
+        x_diff = x2-x1
+        y_diff = y2-y1
+        print(x_diff)
+        pixel_distance = sqrt(x_diff**2+y_diff**2)
         if block == "A":
-            realdist = 5
+            conversion_rate = (35.62)
+            real_distance = (pixel_distance/conversion_rate)
             realunit = "inches"
-            actual_dist = "Placeholder"
-        return (str(pixel_distance) + " " + realunit)
+            print(pixel_distance)
+        return (str(real_distance) + " " + realunit)
+
 
 #instantiate image for measurables
 M = Measurables("Yuh.png")
@@ -73,6 +78,6 @@ while True:
     k = cv2.waitKey(1) & 0xFF
     if k == 27:
         break
-
+print(M.distance(1,0,5,0,'A'))
 # close the window
 cv2.destroyAllWindows()
