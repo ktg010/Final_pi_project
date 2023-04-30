@@ -7,10 +7,13 @@ class Measurables:
     def __init__(self, image):
         self.image = cv2.imread(image)
         self.n = 0
+        self.block = input("Which block will you be testing? Select A, B, or C: ")
 
-    #str method
+    #str method, returns distance between two points, as well as the second angle and refractive index
     def __str__(self):
-        print(f"Point 1: ({self.x1},{self.y1})\nPoint 2: ({self.x2},{self.y2})\nDistance between points: {self.distance(self.x1,self.y1,self.x2,self.y2,'C')}")
+        print(f"Point 1: ({self.x1},{self.y1})\nPoint 2: ({self.x2},{self.y2})\nDistance between points: {self.distance(self.x1,self.y1,self.x2,self.y2,self.block)}")
+        print(f"The second angle is {self.get_angle(self.block, self.real_distance)} degrees.")
+        print(f"Therefore the refractive index of your material is {self.refrative_index(self.get_angle(self.block, self.real_distance))}")
 
 
 
@@ -29,7 +32,7 @@ class Measurables:
                 cv2.FONT_HERSHEY_SIMPLEX, 1/2, (0, 0, 255), 1)
 
                 # draw point on the image
-                cv2.circle(self.image, (x,y), 3, (0,255,255), -1)
+                cv2.circle(self.image, (x,y), 1, (0,255,255), -1)
 
             elif self.n == 1:
                 self.n += 1
@@ -41,26 +44,48 @@ class Measurables:
                 cv2.putText(self.image, f'({x},{y})',(x,y),
                 cv2.FONT_HERSHEY_SIMPLEX, 1/2, (0, 0, 255), 1)
                 # draw point on the image
-                cv2.circle(self.image, (x,y), 3, (0,255,255), -1)
-                #print info about points
+                cv2.circle(self.image, (x,y), 1, (0,255,255), -1)
             else:
                 pass
 
 
-#find distance between two points
+
+#find distance between two points, used in program to calculate hypotenuse of triangle
     def distance(self,x1,y1,x2,y2,block):
         x_diff = x2-x1
         y_diff = y2-y1
         print(x_diff)
-        pixel_distance = sqrt(x_diff**2+y_diff**2)
+        pixel_distance = round(sqrt(x_diff**2+y_diff**2),3)
+        #conversion rates found by width/heigh of block and converting from pixels to real units
         if block == "A" or block == "B":
             conversion_rate = (35.62)
             realunit = "in"
         elif block == "C":
-            conversion_rate = (1.52147)
+            conversion_rate = (1.38)
             realunit = "mm"
-        real_distance = (pixel_distance/conversion_rate)
-        return (str(real_distance) + " " + realunit)
+        self.real_distance = round((pixel_distance/conversion_rate),2)
+        return (str(self.real_distance) + " " + realunit)
+
+    #Function that returns the second unknown angle of the block, needed to calculate refractive index, made by Jonah
+    def get_angle(self, block, hypotenuse):
+        if block == "A":
+            adjacent = 5
+        elif block == "B":
+            adjacent = 3
+        elif block == "C":
+            adjacent = 50
+        acos_x = (adjacent/hypotenuse)
+        radians = acos(acos_x)
+        angle = (radians * (180/pi))
+        return angle
+
+    #function that calculates the refractive index of material using known angle and calculated angle
+    def refrative_index(self, angle2, angle1=40):
+        sin1 = sin(radians(40))
+        sin2 = sin(radians(angle2))
+        n = round((sin1/sin2),3)
+        return n
+
 
 
 #instantiate image for measurables
@@ -74,12 +99,11 @@ cv2.namedWindow("Point coordinates")
 # and calling the click_event() function
 cv2.setMouseCallback("Point coordinates", M.click)
 
-#Display image
+#Display image (close image by pressing escape)
 while True:
     cv2.imshow("Point coordinates", M.image)
     k = cv2.waitKey(1) & 0xFF
     if k == 27:
         break
-print(M.distance(1,0,5,0,'A'))
-# close the window
-#cv2.destroyAllWindows()
+
+
