@@ -11,23 +11,11 @@ class Image:
 
     def Display(self):
         if self.result:
-            #show the image
-            #cv2.imshow("Yuh", self.image)
-
             #save the image
-            cv2.imwrite(r"C:\Users\hambu\OneDrive\Desktop\Final_pi_project\Camera_test\Yuh.png", self.image)
-            #raise Exception("Image could not be saved!")
-            #cv2.waitKey(0)
-            #cv2.destroyAllWindows()
-
-#get image dimensions
+            cv2.imwrite(r"/home/pi/Desktop/Final_project/Final_pi_project/Camera_test/Yuh.png", self.image)
+            
 E = Image()
 E.Display()
-
-#h, w, _ = E.image.shape
-#print('width: ', w)
-#print('height:', h)
-#print(E.result)
 
 
 

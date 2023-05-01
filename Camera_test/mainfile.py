@@ -5,8 +5,8 @@ from get_image import *
 E = Image()
 E.Display()
 
-#access image to measure langth of parabola
-M = Measurables("Yuh.png")
+#access image to measure langth of hypotenuse
+M = Measurables("Camera_test/Yuh.png")
 
 
 # create window
@@ -22,4 +22,10 @@ while True:
     cv2.imshow("Point coordinates", M.image)
     k = cv2.waitKey(1) & 0xFF
     if k == 27:
+        cv2.destroyAllWindows()
+        INDEX = M.n
+        print(INDEX)
+        for i in range(1,5):
+            cv2.waitKey(0)
         break
+

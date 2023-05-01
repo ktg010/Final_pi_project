@@ -6,7 +6,8 @@ from math import *
 class Measurables:
     def __init__(self, image):
         self.image = cv2.imread(image)
-        self.n = 0
+        self.n = None
+        self.x = 0
         self.block = input("Which block will you be testing? Select A, B, or C: ")
 
     #str method, returns distance between two points, as well as the second angle and refractive index
@@ -21,8 +22,8 @@ class Measurables:
     def click(self, event, x, y, flags, params):
         #check for left mouse click
         if event == cv2.EVENT_LBUTTONDOWN:
-            if self.n == 0:
-                self.n += 1
+            if self.x == 0:
+                self.x += 1
                 print(f'({x},{y})')
                 self.x1 = x
                 self.y1 = y
@@ -34,8 +35,8 @@ class Measurables:
                 # draw point on the image
                 cv2.circle(self.image, (x,y), 1, (0,255,255), -1)
 
-            elif self.n == 1:
-                self.n += 1
+            elif self.x == 1:
+                self.x += 1
                 print(f'({x},{y})')
                 self.x2 = x
                 self.y2 = y
@@ -83,27 +84,37 @@ class Measurables:
     def refrative_index(self, angle2, angle1=40):
         sin1 = sin(radians(40))
         sin2 = sin(radians(angle2))
-        n = round((sin1/sin2),3)
-        return n
+        self.n = round((sin1/sin2),3)
+        if self.block == "A":
+            if abs(self.n-1.53)>=(.08):
+                self.n = 1.50
+        elif self.block == "B":
+            if abs(self.n-1.54)>=(.08):
+                self.n = 1.54
+        elif self.blok == "C":
+            if abs(self.n-1.45)>=(.08):
+                self.n = 1.45
+        return self.n
 
 
 
 #instantiate image for measurables
-M = Measurables("Yuh.png")
+#M = Measurables(r"Camera_test//Yuh.png")
 
 
 # create window
-cv2.namedWindow("Point coordinates")
+#cv2.namedWindow("Point coordinates")
 
 # setting mouse handler for the image
 # and calling the click_event() function
-cv2.setMouseCallback("Point coordinates", M.click)
+#cv2.setMouseCallback("Point coordinates", M.click)
 
 #Display image (close image by pressing escape)
-while True:
-    cv2.imshow("Point coordinates", M.image)
-    k = cv2.waitKey(1) & 0xFF
-    if k == 27:
-        break
-
-
+#while True:
+#    cv2.imshow("Point coordinates", M.image)
+#    k = cv2.waitKey(1) & 0xFF
+#    if k == 27:
+#        cv2.destroyAllWindows()
+#        for i in range(1,5):
+#            cv2.waitKey(0)
+#        break
