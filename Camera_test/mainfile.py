@@ -24,7 +24,6 @@ while True:
     if k == 27:
         cv2.destroyAllWindows()
         INDEX = M.n
-        print(INDEX)
         for i in range(1,5):
             cv2.waitKey(0)
         break

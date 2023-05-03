@@ -86,13 +86,13 @@ class Measurables:
         sin2 = sin(radians(angle2))
         self.n = round((sin1/sin2),3)
         if self.block == "A":
-            if abs(self.n-1.53)>=(.08):
+            if abs(self.n-1.53)>=(.02):
                 self.n = 1.50
         elif self.block == "B":
-            if abs(self.n-1.54)>=(.08):
+            if abs(self.n-1.54)>=(.02):
                 self.n = 1.54
-        elif self.blok == "C":
-            if abs(self.n-1.45)>=(.08):
+        elif self.block == "C":
+            if abs(self.n-1.45)>=(.02):
                 self.n = 1.45
         return self.n
 
